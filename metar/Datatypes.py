@@ -80,6 +80,9 @@ class temperature(object):
         elif units == "K":
             return "%.1f K" % val
 
+    def __eq__(self, other):
+        return (self._value, self._units) == (other._value, other._units)
+
 
 class pressure(object):
     """A class representing a barometric pressure value."""
@@ -131,6 +134,9 @@ class pressure(object):
             return "%.1f hPa" % val
         elif units == "IN":
             return "%.2f inches" % val
+
+    def __eq__(self, other):
+        return (self._value, self._units) == (other._value, other._units)
 
 
 class speed(object):
@@ -205,6 +211,9 @@ class speed(object):
         elif self._gtlt == "<":
             text = "less than " + text
         return text
+
+    def __eq__(self, other):
+        return (self._value, self._units, self._gtlt) == (other._value, other._units, other._gtlt)
 
 
 class distance(object):
@@ -319,6 +328,8 @@ class distance(object):
             text = "less than " + text
         return text
 
+    def __eq__(self, other):
+        return (self._value, self._units, self._gtlt) == (other._value, other._units, other._gtlt)
 
 class direction(object):
     """A class representing a compass direction."""
@@ -376,6 +387,9 @@ class direction(object):
                         self._compass = name
                         break
         return self._compass
+    
+    def __eq__(self, other):
+        return (self._compass, self._degrees) == (other._compass, other._degrees)
 
 
 class precipitation(object):
@@ -458,6 +472,8 @@ class precipitation(object):
         """Return a boolean on if this precipitation was a trace"""
         return self._istrace
 
+    def __eq__(self, other):
+        return (self._value, self._units, self._gtlt, self._istrace) == (other._value, other._units, other._gtlt, other._istrace)
 
 class position(object):
     """A class representing a location on the earth's surface."""
