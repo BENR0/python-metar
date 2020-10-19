@@ -80,7 +80,13 @@ class temperature(object):
         elif units == "K":
             return "%.1f K" % val
 
+    def _is_valid_operand(self, other):
+        """Checks if the other operand in comparison has the same attributes"""
+        return (hasattr(other, "_value") and hasattr(other, "_units"))
+
     def __eq__(self, other):
+        if not self._is_valid_operand(other):
+            return NotImplemented
         return (self._value, self._units) == (other._value, other._units)
 
 
@@ -135,7 +141,13 @@ class pressure(object):
         elif units == "IN":
             return "%.2f inches" % val
 
+    def _is_valid_operand(self, other):
+        """Checks if the other operand in comparison has the same attributes"""
+        return (hasattr(other, "_value") and hasattr(other, "_units"))
+
     def __eq__(self, other):
+        if not self._is_valid_operand(other):
+            return NotImplemented
         return (self._value, self._units) == (other._value, other._units)
 
 
@@ -212,7 +224,13 @@ class speed(object):
             text = "less than " + text
         return text
 
+    def _is_valid_operand(self, other):
+        """Checks if the other operand in comparison has the same attributes"""
+        return (hasattr(other, "_value") and hasattr(other, "_units") and hasattr(other, "_gtlt"))
+
     def __eq__(self, other):
+        if not self._is_valid_operand(other):
+            return NotImplemented
         return (self._value, self._units, self._gtlt) == (other._value, other._units, other._gtlt)
 
 
@@ -328,7 +346,13 @@ class distance(object):
             text = "less than " + text
         return text
 
+    def _is_valid_operand(self, other):
+        """Checks if the other operand in comparison has the same attributes"""
+        return (hasattr(other, "_value") and hasattr(other, "_units") and hasattr(other, "_gtlt"))
+
     def __eq__(self, other):
+        if not self._is_valid_operand(other):
+            return NotImplemented
         return (self._value, self._units, self._gtlt) == (other._value, other._units, other._gtlt)
 
 class direction(object):
@@ -388,7 +412,13 @@ class direction(object):
                         break
         return self._compass
     
+    def _is_valid_operand(self, other):
+        """Checks if the other operand in comparison has the same attributes"""
+        return (hasattr(other, "_compass") and hasattr(other, "_degrees")) 
+
     def __eq__(self, other):
+        if not self._is_valid_operand(other):
+            return NotImplemented
         return (self._compass, self._degrees) == (other._compass, other._degrees)
 
 
@@ -472,7 +502,14 @@ class precipitation(object):
         """Return a boolean on if this precipitation was a trace"""
         return self._istrace
 
+    def _is_valid_operand(self, other):
+        """Checks if the other operand in comparison has the same attributes"""
+        return (hasattr(other, "_value") and hasattr(other, "_units") and hasattr(other, "_gtlt")
+                and hasattr(other, "_istrace")) 
+
     def __eq__(self, other):
+        if not self._is_valid_operand(other):
+            return NotImplemented
         return (self._value, self._units, self._gtlt, self._istrace) == (other._value, other._units, other._gtlt, other._istrace)
 
 class position(object):
