@@ -350,7 +350,7 @@ debug = False
 class Metar(object):
     """METAR (aviation meteorology report)"""
 
-    def __init__(self, metarcode, month=None, year=None, utcdelta=None, strict=True):
+    def __init__(self, metarcode, month=None, year=None, utcdelta=None, strict=True, surpress_warning=True):
         """
         Parse raw METAR code.
 
@@ -498,7 +498,8 @@ class Metar(object):
             if strict:
                 raise ParserError(message)
             else:
-                warnings.warn(message, RuntimeWarning)
+                if not surpress_warning:
+                    warnings.warn(message, RuntimeWarning)
 
     @property
     def decode_completed(self):
