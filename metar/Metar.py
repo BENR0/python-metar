@@ -18,6 +18,7 @@ from metar.Datatypes import (
     distance,
     direction,
     precipitation,
+    UnitsError
 )
 
 # logger
@@ -440,7 +441,10 @@ class Metar(object):
                     ifailed = -1
                     if debug:
                         _report_match(handler, m.group())
-                    handler(self, m.groupdict())
+                    try:
+                        handler(self, m.groupdict())
+                    except (ValueError, UnitsError) as e:
+                        pass
                     code = code[m.end():]
                     if self._trend:
                         code = self._do_trend_handlers(code)
@@ -460,7 +464,10 @@ class Metar(object):
                     m = pattern.match(code)
                     if debug:
                         _report_match(handler, m.group())
-                    handler(self, m.groupdict())
+                    try:
+                        handler(self, m.groupdict())
+                    except (ValueError, UnitsError) as e:
+                        pass
                     code = code[m.end():]
                     igroup = ifailed
                     ifailed = -2  # if it's still -2 when we run out of main-body
@@ -474,7 +481,10 @@ class Metar(object):
                         if m:
                             if debug:
                                 _report_match(handler, m.group())
-                            handler(self, m.groupdict())
+                            try:
+                                handler(self, m.groupdict())
+                            except (ValueError, UnitsError) as e:
+                                pass
                             code = pattern.sub("", code, 1)
                             break
 
